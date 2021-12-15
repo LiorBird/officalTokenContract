@@ -50,11 +50,12 @@ abstract contract Tokenomics {
 
     // --------------------- Fees Settings ------------------- //
 
-    address internal projectFund = 0xCa5284C60aF1c65507bE8d597b213666C3a7551F; //Multi-sig Project Fund 
-    address internal communityWallet = 0xE057D9f2b4d39793DBe92dA241b8A33ad9a6dD46; //Multi-sig Community Fund
-    address internal burnAddress = 0x91467E32e531A4a54C487218E53d63F5baB78600; // This burn address is only here for potenital future burning. 
-    address internal stakingWallet = 0x641a418C6b836aAE5D537440BC804D3ed4706BBA; // need the new address
-
+    address internal projectFund = 0xCF14cAA1aFb0464b3e9BB0Fd652b01fC59388fCC; //Multi-sig Project Fund 
+    address internal communityWallet = 0x863bBFf526DD5ec0e77AB7eB959a2FbC9910CB98; //Multi-sig Community Fund
+    address internal burnAddress = 0x0000000000000000000000000000000662607015; //(Planck's constant) This burn address is only here for potenital future manual burning. 
+    //address internal projectFund = 0xCa5284C60aF1c65507bE8d597b213666C3a7551F; //Multi-sig Project Fund 
+    //address internal communityWallet = 0xE057D9f2b4d39793DBe92dA241b8A33ad9a6dD46; //Multi-sig Community Fund
+    //address internal burnAddress = 0x0000000000000000000000000000000662607015; //(Planck's constant) This burn address is only here for potenital future manual burning.
 
     enum FeeType { Antiwhale, Burn, Liquidity, Rfi, External, ExternalToETH }
     struct Fee {
@@ -144,12 +145,13 @@ abstract contract BaseRfiToken is IERC20, IERC20Metadata, Ownable, Presaleable, 
         _isExcludedFromFee[address(this)] = true;
         _isExcludedFromFee[communityWallet] = true; //multi-sig wallet for community Fund
         _isExcludedFromFee[projectFund] = true; // multi-sig wallet for project fund
-        _isExcludedFromFee[stakingWallet] = true; // multi-sig for staking coins
+    
 
 
-        // exclude the owner, staking wallet and this contract from rewards
+        // exclude the owner, multi-sig wallets  and this contract from rewards
         _exclude(owner());
-        _exclude(stakingWallet);
+        _exclude(communityWallet);
+        _exclude(projectFund);
         _exclude(address(this));
 
         emit Transfer(address(0), owner(), TOTAL_SUPPLY);
@@ -312,7 +314,7 @@ abstract contract BaseRfiToken is IERC20, IERC20Metadata, Ownable, Presaleable, 
      */
     function _isUnlimitedSender(address account) internal view returns(bool){
         // the owner and multi-sig wallets are excluded: 
-        return (account == owner() || account == communityWallet|| account == projectFund || account == stakingWallet);
+        return (account == owner() || account == communityWallet|| account == projectFund );
     }
     /**
      */
@@ -320,7 +322,7 @@ abstract contract BaseRfiToken is IERC20, IERC20Metadata, Ownable, Presaleable, 
         // the owner and community fund wallet should be a white-listed recipient
         // and anyone should be able to burn as many tokens as they wish.
         
-        return (account == owner() || account == burnAddress  || account == communityWallet|| account == projectFund || account == stakingWallet);
+        return (account == owner() || account == burnAddress  || account == communityWallet|| account == projectFund);
     }
 
     function _transfer(address sender, address recipient, uint256 amount) private {
