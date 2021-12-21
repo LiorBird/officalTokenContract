@@ -78,6 +78,7 @@ abstract contract Ownable is Context {
     address private _owner;
     address private _previousOwner;
     uint256 private _lockTime;
+    bool private _renounced;
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
     constructor () {
         address msgSender = _msgSender();
@@ -94,6 +95,7 @@ abstract contract Ownable is Context {
     function renounceOwnership() public virtual onlyOwner {
         emit OwnershipTransferred(_owner, address(0));
         _owner = address(0);
+        _renounced = true;
     }
     function transferOwnership(address newOwner) public virtual onlyOwner {
         require(newOwner != address(0), "Ownable: new owner is the zero address");
@@ -109,7 +111,13 @@ abstract contract Ownable is Context {
         _lockTime = block.timestamp + time;
         emit OwnershipTransferred(_owner, address(0));
     }
-
+    function unlock() public virtual {
+        require(_previousOwner == msg.sender, "Only the previous owner can unlock onwership");
+        require(_renounced == false, "Cannot unlock renounced ownership");
+        require(block.timestamp > _lockTime , "The contract is still locked");
+        emit OwnershipTransferred(_owner, _previousOwner);
+        _owner = _previousOwner;
+    }
 }
 abstract contract Manageable is Context {
     address private _manager;
