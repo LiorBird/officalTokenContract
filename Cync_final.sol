@@ -30,7 +30,7 @@ abstract contract Tokenomics {
 
     // --------------------- Token Settings ------------------- //
 
-    string internal constant NAME = "CYN-Coin";
+    string internal constant NAME = "CYN-COIN";
     string internal constant SYMBOL = "CYNC";
 
     uint16 internal constant FEES_DIVISOR = 10**3;
@@ -50,12 +50,12 @@ abstract contract Tokenomics {
 
     // --------------------- Fees Settings ------------------- //
 
-    address internal projectFund = 0xCF14cAA1aFb0464b3e9BB0Fd652b01fC59388fCC; //Multi-sig Project Fund 
-    address internal communityWallet = 0x863bBFf526DD5ec0e77AB7eB959a2FbC9910CB98; //Multi-sig Community Fund
-    address internal burnAddress = 0x0000000000000000000000000000000662607015; //(Planck's constant) This burn address is only here for potenital future manual burning. 
-    //address internal projectFund = 0xCa5284C60aF1c65507bE8d597b213666C3a7551F; //Multi-sig Project Fund 
-    //address internal communityWallet = 0xE057D9f2b4d39793DBe92dA241b8A33ad9a6dD46; //Multi-sig Community Fund
-    //address internal burnAddress = 0x0000000000000000000000000000000662607015; //(Planck's constant) This burn address is only here for potenital future manual burning.
+    // address internal projectFund = 0xCF14cAA1aFb0464b3e9BB0Fd652b01fC59388fCC; //Multi-sig Project Fund 
+    // address internal communityWallet = 0x863bBFf526DD5ec0e77AB7eB959a2FbC9910CB98; //Multi-sig Community Fund
+    // address internal burnAddress = 0x0000000000000000000000000000000662607015; //(Planck's constant) This burn address is only here for potenital future manual burning. 
+    address internal projectFund = 0xCa5284C60aF1c65507bE8d597b213666C3a7551F; //Multi-sig Project Fund 
+    address internal communityWallet = 0xE057D9f2b4d39793DBe92dA241b8A33ad9a6dD46; //Multi-sig Community Fund
+    address internal burnAddress = 0x0000000000000000000000000000000662607015; //(Planck's constant) This burn address is only here for potenital future manual burning.
 
     enum FeeType { Antiwhale, Burn, Liquidity, Rfi, External, ExternalToETH }
     struct Fee {
@@ -630,7 +630,7 @@ abstract contract Antiwhale is Tokenomics {
 }
 //////////////////////////////////////////////////////////////////////////
 
-abstract contract CyncCoin is BaseRfiToken, Liquifier, Antiwhale {
+abstract contract CynCoin is BaseRfiToken, Liquifier, Antiwhale {
 
     using SafeMath for uint256;
 
@@ -720,9 +720,9 @@ abstract contract CyncCoin is BaseRfiToken, Liquifier, Antiwhale {
 }
 
 
-contract CyncCoinV1 is CyncCoin{
+contract CynCoinV1 is CynCoin{
 
-    constructor() CyncCoin(Env.Testnet){
+    constructor() CynCoin(Env.Testnet){
         // pre-approve the initial liquidity supply (to safe a bit of time)
         _approve(owner(),address(_router), ~uint256(0));
     }
