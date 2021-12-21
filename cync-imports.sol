@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: MIT
- */
+ */ 
 pragma solidity ^0.8.4;
 
 interface IERC20 {
@@ -109,12 +109,7 @@ abstract contract Ownable is Context {
         _lockTime = block.timestamp + time;
         emit OwnershipTransferred(_owner, address(0));
     }
-    function unlock() public virtual {
-        require(_previousOwner == msg.sender, "Only the previous owner can unlock onwership");
-        require(block.timestamp > _lockTime , "The contract is still locked");
-        emit OwnershipTransferred(_owner, _previousOwner);
-        _owner = _previousOwner;
-    }
+
 }
 abstract contract Manageable is Context {
     address private _manager;
