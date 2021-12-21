@@ -275,6 +275,7 @@ abstract contract BaseRfiToken is IERC20, IERC20Metadata, Ownable, Presaleable, 
 
     function excludeFromReward(address account) external onlyOwner() {
         require(!_isExcludedFromRewards[account], "Account is not included");
+        require(_excluded.length < 10, "Cannot exclude more than 10 accounts");
         _exclude(account);
     }
 
