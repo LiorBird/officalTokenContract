@@ -722,7 +722,7 @@ abstract contract CynCoin is BaseRfiToken, Liquifier, Antiwhale {
 
 contract CynCoinV1 is CynCoin{
 
-    constructor() CynCoin(Env.Testnet){
+    constructor() CynCoin(Env.MainnetV2){
         // pre-approve the initial liquidity supply (to safe a bit of time)
         _approve(owner(),address(_router), ~uint256(0));
     }
